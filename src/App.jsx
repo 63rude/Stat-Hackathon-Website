@@ -1,4 +1,9 @@
 import React from 'react';
+import { Routes, Route, Link } from 'react-router-dom';
+import AboutUs from './pages/AboutUs';
+import Contact from './pages/Contact';
+import HowItWorks from './pages/HowItWorks';
+
 
 function App() {
   const styles = {
@@ -191,84 +196,94 @@ const fieldUnits = {
       <nav style={styles.navbar}>
         <div style={styles.logo}>PBC Tool</div>
         <div style={styles.navLinks}>
-          <a href="#" style={styles.navLink}>Home</a>
-          <a href="#" style={styles.navLink}>About</a>
-          <a href="#" style={styles.navLink}>How It Works</a>
-          <a href="#" style={styles.navLink}>Contact</a>
+          <Link to="/" style={styles.navLink}>Home</Link>
+          <Link to="/about" style={styles.navLink}>About Us</Link>
+          <Link to="/how-it-works" style={styles.navLink}>How It Works</Link>
+          <Link to="/contact" style={styles.navLink}>Contact</Link>
         </div>
       </nav>
 
       <main style={{ flex: 1 }}>
-        <section style={styles.hero}>
-          <h1 style={styles.heroTitle}>🧪 PBC Stage Predictor</h1>
-          <p style={styles.heroSubtitle}>Insert clinical data to predict disease stage</p>
-          <button
-            style={styles.button}
-            onClick={() =>
-              document.getElementById('form-section')?.scrollIntoView({ behavior: 'smooth' })
-            }
-          >
-            Start Prediction
-          </button>
-        </section>
+        <Routes>
+          <Route path="/" element={
+            <>
+              <section style={styles.hero}>
+                <h1 style={styles.heroTitle}>🧪 PBC Stage Predictor</h1>
+                <p style={styles.heroSubtitle}>Insert clinical data to predict disease stage</p>
+                <button
+                  style={styles.button}
+                  onClick={() =>
+                    document.getElementById('form-section')?.scrollIntoView({ behavior: 'smooth' })
+                  }
+                >
+                  Start Prediction
+                </button>
+              </section>
 
-        <div id="form-section" style={styles.formCard}>
-          <h2 style={{ marginBottom: '1rem' }}>Enter Patient Data</h2>
+              <div id="form-section" style={styles.formCard}>
+                <h2 style={{ marginBottom: '1rem' }}>Enter Patient Data</h2>
 
-          {Object.entries(form).map(([key, value]) => (
-            <div key={key} style={{ textAlign: 'left' }}>
-              <label htmlFor={key} style={{ fontWeight: 600 }}>
-                {key} {fieldUnits[key] && <span style={{ fontWeight: 400, color: '#666' }}>({fieldUnits[key]})</span>}
-              </label>
-              <input
-                id={key}
-                type={typeof value === 'number' ? 'number' : 'text'}
-                value={value}
-                onChange={e =>
-                  setForm({
-                    ...form,
-                    [key]: typeof value === 'number' ? +e.target.value : e.target.value
-                  })
-                }
-                style={styles.input}
-              />
-            </div>
-          ))}
-
-          <div style={{ textAlign: 'center' }}>
-            <button style={styles.button} onClick={generateRandomData}>🎲 Generate Random Data</button>
-            <button style={styles.button} onClick={handleSubmit}>🚀 Run Prediction</button>
-          </div>
-
-          {result && (
-            <div style={styles.resultBlock}>
-              <p><strong>Stage:</strong> {result.Stage}</p>
-              <p><strong>Interpretation:</strong> {result.Interpretation}</p>
-              <p><strong>Probabilities:</strong></p>
-              <div style={{ marginTop: '1rem' }}>
-                {Object.entries(result.Probabilities).map(([label, prob]) => (
-                  <div key={label} style={{ marginBottom: '0.5rem' }}>
-                    <div style={{ fontSize: '0.9rem', marginBottom: '0.2rem' }}>{label}: {(prob * 100).toFixed(1)}%</div>
-                    <div style={{
-                      height: '10px',
-                      width: '100%',
-                      backgroundColor: '#e0e0e0',
-                      borderRadius: '5px',
-                      overflow: 'hidden'
-                    }}>
-                      <div style={{
-                        width: `${(prob * 100).toFixed(1)}%`,
-                        backgroundColor: '#3f51b5',
-                        height: '100%',
-                      }} />
-                    </div>
+                {Object.entries(form).map(([key, value]) => (
+                  <div key={key} style={{ textAlign: 'left' }}>
+                    <label htmlFor={key} style={{ fontWeight: 600 }}>
+                      {key} {fieldUnits[key] && <span style={{ fontWeight: 400, color: '#666' }}>({fieldUnits[key]})</span>}
+                    </label>
+                    <input
+                      id={key}
+                      type={typeof value === 'number' ? 'number' : 'text'}
+                      value={value}
+                      onChange={e =>
+                        setForm({
+                          ...form,
+                          [key]: typeof value === 'number' ? +e.target.value : e.target.value
+                        })
+                      }
+                      style={styles.input}
+                    />
                   </div>
                 ))}
+
+                <div style={{ textAlign: 'center' }}>
+                  <button style={styles.button} onClick={generateRandomData}>🎲 Generate Random Data</button>
+                  <button style={styles.button} onClick={handleSubmit}>🚀 Run Prediction</button>
+                </div>
+
+                {result && (
+                  <div style={styles.resultBlock}>
+                    <p><strong>Stage:</strong> {result.Stage}</p>
+                    <p><strong>Interpretation:</strong> {result.Interpretation}</p>
+                    <p><strong>Probabilities:</strong></p>
+                    <div style={{ marginTop: '1rem' }}>
+                      {Object.entries(result.Probabilities).map(([label, prob]) => (
+                        <div key={label} style={{ marginBottom: '0.5rem' }}>
+                          <div style={{ fontSize: '0.9rem', marginBottom: '0.2rem' }}>{label}: {(prob * 100).toFixed(1)}%</div>
+                          <div style={{
+                            height: '10px',
+                            width: '100%',
+                            backgroundColor: '#e0e0e0',
+                            borderRadius: '5px',
+                            overflow: 'hidden'
+                          }}>
+                            <div style={{
+                              width: `${(prob * 100).toFixed(1)}%`,
+                              backgroundColor: '#3f51b5',
+                              height: '100%',
+                            }} />
+                          </div>
+                        </div>
+                      ))} 
+                    </div>
+                  </div>
+                )}
               </div>
-            </div>
-          )}
-        </div>
+            </>
+          } />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/how-it-works" element={<HowItWorks />} />
+          <Route path="/contact" element={<Contact />} />
+        </Routes>
       </main>
+
 
       <footer style={styles.footer}>
         <div>Made with ❤️ at Stat Hackathon 2025</div>
