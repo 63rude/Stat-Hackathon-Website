@@ -3,6 +3,8 @@ import { Routes, Route, Link } from 'react-router-dom';
 import AboutUs from './pages/AboutUs';
 import Contact from './pages/Contact';
 import HowItWorks from './pages/HowItWorks';
+import logo from './assets/logo1.png';
+
 
 
 function App() {
@@ -194,7 +196,10 @@ const fieldUnits = {
   return (
     <div style={styles.container}>
       <nav style={styles.navbar}>
-        <div style={styles.logo}>PBC Tool</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <img src={logo} alt="Logo" style={{ height: '32px', width: '32px' }} />
+          <span style={styles.logo}>PBC Tool</span>
+        </div>
         <div style={styles.navLinks}>
           <Link to="/" style={styles.navLink}>Home</Link>
           <Link to="/about" style={styles.navLink}>About Us</Link>
