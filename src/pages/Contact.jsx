@@ -23,7 +23,7 @@ function Contact() {
         <p>
           Have questions, suggestions, or feedback?<br />
           We'd love to hear from you! 💬<br /><br />
-          📧 Email us at: <strong>stat-hackathon@example.com</strong>
+          📧 Email us at: <strong>smartgradient@gmail.com</strong>
         </p>
       </div>
     </div>
