@@ -144,6 +144,10 @@ const fieldUnits = {
   const [result, setResult] = React.useState(null);
 
   const generateRandomData = () => {
+    const SGOT = Math.floor(Math.random() * 120) + 20;
+    const Alk_Phos = Math.floor(Math.random() * 200) + 100;
+    const Bilirubin = +(Math.random() * 3 + 0.5).toFixed(2);
+    
     setForm({
       Age: Math.floor(Math.random() * 50) + 30,
       Sex: Math.random() < 0.5 ? 'F' : 'M',
@@ -151,19 +155,20 @@ const fieldUnits = {
       Hepatomegaly: Math.floor(Math.random() * 2),
       Spiders: Math.floor(Math.random() * 2),
       Edema: Math.floor(Math.random() * 2),
-      Bilirubin: +(Math.random() * 4.5 + 0.5).toFixed(2),
+      Bilirubin,
       Cholesterol: Math.floor(Math.random() * 200) + 100,
       Albumin: +(Math.random() * 3 + 2.5).toFixed(2),
-      Copper: Math.floor(Math.random() * 200),
-      Alk_Phos: Math.floor(Math.random() * 300),
-      SGOT: Math.floor(Math.random() * 150),
-      Tryglicerides: Math.floor(Math.random() * 300),
-      Platelets: Math.floor(Math.random() * 300) + 100,
-      Prothrombin: +(Math.random() * 5 + 10).toFixed(1),
-      SGOTxALKPHOS: Math.floor(Math.random() * 50000),
-      SGOTxBILIRUBIN: Math.floor(Math.random() * 1000),
+      Copper: Math.floor(Math.random() * 150) + 50,
+      Alk_Phos,
+      SGOT,
+      Tryglicerides: Math.floor(Math.random() * 250) + 100,
+      Platelets: Math.floor(Math.random() * 200) + 150,
+      Prothrombin: +(Math.random() * 2 + 10).toFixed(1),
+      SGOTxALKPHOS: SGOT * Alk_Phos,
+      SGOTxBILIRUBIN: Math.floor(SGOT * Bilirubin),
     });
   };
+
 
   const handleSubmit = async () => {
     try {
