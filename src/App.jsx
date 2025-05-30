@@ -240,11 +240,26 @@ const fieldUnits = {
               <p><strong>Stage:</strong> {result.Stage}</p>
               <p><strong>Interpretation:</strong> {result.Interpretation}</p>
               <p><strong>Probabilities:</strong></p>
-              <ul>
+              <div style={{ marginTop: '1rem' }}>
                 {Object.entries(result.Probabilities).map(([label, prob]) => (
-                  <li key={label}>{label}: {(prob * 100).toFixed(1)}%</li>
+                  <div key={label} style={{ marginBottom: '0.5rem' }}>
+                    <div style={{ fontSize: '0.9rem', marginBottom: '0.2rem' }}>{label}: {(prob * 100).toFixed(1)}%</div>
+                    <div style={{
+                      height: '10px',
+                      width: '100%',
+                      backgroundColor: '#e0e0e0',
+                      borderRadius: '5px',
+                      overflow: 'hidden'
+                    }}>
+                      <div style={{
+                        width: `${(prob * 100).toFixed(1)}%`,
+                        backgroundColor: '#3f51b5',
+                        height: '100%',
+                      }} />
+                    </div>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </div>
           )}
         </div>
