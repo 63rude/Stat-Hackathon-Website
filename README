@@ -1,0 +1,42 @@
+# Bot Interface – JavaScript Frontend
+
+This is the web interface for our chatbot, developed in JavaScript and HTML/CSS.
+
+⚠️ **Note:** This frontend is designed to run locally and interact with a **Python backend built with FastAPI**, which contains the logic and trained model. Some features (like the **"Run" button**) will not work unless the backend is running.
+
+---
+
+## 💡 Overview
+
+- Simple chatbot interface to send and receive messages.
+- Communicates with a local FastAPI backend via HTTP.
+- Backend handles natural language processing and response logic.
+
+---
+
+## 🚧 Limitations
+
+- The **"Run"** button triggers a request to the FastAPI backend.
+- If the backend is not running, actions like sending a message will not work.
+- This repository **does not include the Python backend**.
+
+---
+
+## 🔗 Backend Info
+
+The backend:
+- Is written in Python using **FastAPI**.
+- Contains:
+  - A trained machine learning model
+  - API endpoints to receive input and return responses
+  - Core logic for interpreting messages
+
+👉 [Insert link to backend repo here]
+
+---
+
+## 🛠 How to Run Locally
+
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/yourusername/bot-interface
