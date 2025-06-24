@@ -31,7 +31,8 @@ The backend:
   - API endpoints to receive input and return responses
   - Core logic for interpreting messages
 
-👉 [Insert link to backend repo here]
+👉 Frontend GitHub repo:  
+**[https://github.com/63rude/Stat-Hackathon-Website](https://github.com/63rude/Stat-Hackathon-Website)**
 
 ---
 
@@ -39,4 +40,13 @@ The backend:
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/yourusername/bot-interface
+   git clone https://github.com/63rude/Stat-Hackathon-Website
+   cd Stat-Hackathon-Website
+
+2. Make sure your Python FastAPI backend is running locally (e.g., at http://localhost:8000)
+
+3. Install dependencies and start the frontend dev server:
+    pnpm install
+    pnpm run dev
+
+4. Open the URL printed in the terminal (usually http://localhost:5173) to use the chatbot interface.
