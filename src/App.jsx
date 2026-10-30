@@ -5,6 +5,15 @@ import Contact from './pages/Contact';
 import HowItWorks from './pages/HowItWorks';
 import logo from './assets/logo1.png';
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, '') || '';
+
+const categoricalOptions = {
+  Sex: ['F', 'M'],
+  Ascites: ['N', 'Y'],
+  Hepatomegaly: ['N', 'Y'],
+  Spiders: ['N', 'Y'],
+  Edema: ['N', 'S', 'Y'],
+};
 
 
 function App() {
@@ -124,17 +133,15 @@ const fieldUnits = {
   Tryglicerides: 'mg/dL',
   Platelets: '×10⁹/L',
   Prothrombin: 'seconds',
-  SGOTxALKPHOS: '',
-  SGOTxBILIRUBIN: '',
 };
 
   const [form, setForm] = React.useState({
     Age: 50,
     Sex: 'F',
-    Ascites: 0,
-    Hepatomegaly: 0,
-    Spiders: 0,
-    Edema: 0,
+    Ascites: 'N',
+    Hepatomegaly: 'N',
+    Spiders: 'N',
+    Edema: 'N',
     Bilirubin: 1.0,
     Cholesterol: 200,
     Albumin: 3.5,
@@ -144,8 +151,6 @@ const fieldUnits = {
     Tryglicerides: 180,
     Platelets: 250,
     Prothrombin: 11.0,
-    SGOTxALKPHOS: 9000,
-    SGOTxBILIRUBIN: 60,
   });
 
   const [result, setResult] = React.useState(null);
@@ -158,10 +163,10 @@ const fieldUnits = {
     setForm({
       Age: Math.floor(Math.random() * 50) + 30,
       Sex: Math.random() < 0.5 ? 'F' : 'M',
-      Ascites: Math.floor(Math.random() * 3),
-      Hepatomegaly: Math.floor(Math.random() * 2),
-      Spiders: Math.floor(Math.random() * 2),
-      Edema: Math.floor(Math.random() * 2),
+      Ascites: Math.random() < 0.5 ? 'N' : 'Y',
+      Hepatomegaly: Math.random() < 0.5 ? 'N' : 'Y',
+      Spiders: Math.random() < 0.5 ? 'N' : 'Y',
+      Edema: ['N', 'S', 'Y'][Math.floor(Math.random() * 3)],
       Bilirubin,
       Cholesterol: Math.floor(Math.random() * 200) + 100,
       Albumin: +(Math.random() * 3 + 2.5).toFixed(2),
@@ -171,25 +176,25 @@ const fieldUnits = {
       Tryglicerides: Math.floor(Math.random() * 250) + 100,
       Platelets: Math.floor(Math.random() * 200) + 150,
       Prothrombin: +(Math.random() * 2 + 10).toFixed(1),
-      SGOTxALKPHOS: SGOT * Alk_Phos,
-      SGOTxBILIRUBIN: Math.floor(SGOT * Bilirubin),
     });
   };
 
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:8000/predict', {
+      const response = await fetch(`${API_BASE}/predict`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       });
 
+      if (!response.ok) throw new Error(`Prediction request failed (${response.status})`);
       const data = await response.json();
+      if (!data.prediction || data.prediction.error) throw new Error('Prediction was not available');
       setResult(data.prediction);
     } catch (error) {
       console.error('Error:', error);
-      alert('Failed to fetch prediction. Is the API running?');
+      alert('Prediction failed. Check that the local API is running and the inputs are valid.');
     }
   };
 
@@ -214,7 +219,7 @@ const fieldUnits = {
             <>
               <section style={styles.hero}>
                 <h1 style={styles.heroTitle}>🧪 PBC Stage Predictor</h1>
-                <p style={styles.heroSubtitle}>Insert clinical data to predict disease stage</p>
+                <p style={styles.heroSubtitle}>A 2025 hackathon prototype. Use example values only; this is not a clinical tool.</p>
                 <button
                   style={styles.button}
                   onClick={() =>
@@ -226,37 +231,41 @@ const fieldUnits = {
               </section>
 
               <div id="form-section" style={styles.formCard}>
-                <h2 style={{ marginBottom: '1rem' }}>Enter Patient Data</h2>
+                <h2 style={{ marginBottom: '1rem' }}>Enter Example Data</h2>
+                <p>Do not enter identifiable patient information. Results are experimental and are not a diagnosis.</p>
 
                 {Object.entries(form).map(([key, value]) => (
                   <div key={key} style={{ textAlign: 'left' }}>
                     <label htmlFor={key} style={{ fontWeight: 600 }}>
                       {key} {fieldUnits[key] && <span style={{ fontWeight: 400, color: '#666' }}>({fieldUnits[key]})</span>}
                     </label>
-                    <input
-                      id={key}
-                      type={typeof value === 'number' ? 'number' : 'text'}
-                      value={value}
-                      onChange={e =>
-                        setForm({
-                          ...form,
-                          [key]: typeof value === 'number' ? +e.target.value : e.target.value
-                        })
-                      }
-                      style={styles.input}
-                    />
+                    {categoricalOptions[key] ? (
+                      <select id={key} value={value} onChange={e => setForm({ ...form, [key]: e.target.value })} style={styles.input}>
+                        {categoricalOptions[key].map(option => <option key={option} value={option}>{option}</option>)}
+                      </select>
+                    ) : (
+                      <input
+                        id={key}
+                        type="number"
+                        step="any"
+                        value={value}
+                        onChange={e => setForm({ ...form, [key]: Number(e.target.value) })}
+                        style={styles.input}
+                      />
+                    )}
                   </div>
                 ))}
 
                 <div style={{ textAlign: 'center' }}>
-                  <button style={styles.button} onClick={generateRandomData}>🎲 Generate Random Data</button>
+                  <button style={styles.button} onClick={generateRandomData}>🎲 Generate Example Values</button>
                   <button style={styles.button} onClick={handleSubmit}>🚀 Run Prediction</button>
                 </div>
 
                 {result && (
                   <div style={styles.resultBlock}>
                     <p><strong>Stage:</strong> {result.Stage}</p>
-                    <p><strong>Interpretation:</strong> {result.Interpretation}</p>
+                    <p><strong>Model interpretation:</strong> {result.Interpretation}</p>
+                    <p>Experimental output only. Do not use it for clinical decisions.</p>
                     <p><strong>Probabilities:</strong></p>
                     <div style={{ marginTop: '1rem' }}>
                       {Object.entries(result.Probabilities).map(([label, prob]) => (
@@ -291,7 +300,7 @@ const fieldUnits = {
 
 
       <footer style={styles.footer}>
-        <div>Made with ❤️ at Stat Hackathon 2025</div>
+        <div>Built at Stat Hackathon 2025 · portfolio archive</div>
         <div>© 2025 PBC Stage Predictor. All rights reserved.</div>
       </footer>
     </div>

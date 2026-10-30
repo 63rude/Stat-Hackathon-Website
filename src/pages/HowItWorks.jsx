@@ -26,6 +26,7 @@ function HowItWorks() {
           <strong>3.</strong> 🤖 The model analyzes the inputs and predicts the most likely PBC stage.<br />
           <strong>4.</strong> 📊 You'll get a detailed probability breakdown for each stage.
         </p>
+        <p>Use example values only. This hackathon model is not a diagnostic tool.</p>
       </div>
     </div>
   );

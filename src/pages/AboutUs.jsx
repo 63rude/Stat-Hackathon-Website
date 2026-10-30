@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../assets/logo.png'; // adjust path if needed
+import logo from '../assets/logo.png';
 
 function AboutUs() {
   const styles = {
@@ -23,9 +23,8 @@ function AboutUs() {
         <img src={logo} alt="Smart Gradients Logo" style={{ width: '120px', marginBottom: '1rem' }} />
         <h1>Smart Gradients 🎓</h1>
         <p>
-          We are a team of five dedicated students driven by a passion for data science and its potential in healthcare. ❤️<br /><br />
-          This project was developed during the Stat Hackathon 2025 🧪 to help predict the stage of Primary Biliary Cholangitis (PBC) using clinical data and AI.<br /><br />
-          Our goal is to turn complex data into clear, helpful tools that support real-world decisions. 🚀📊
+          We were a team of five students at Stat Hackathon 2025. We built this prototype to explore whether a trained model could classify PBC stage from the supplied example data.<br /><br />
+          The site and model are preserved here as our hackathon work. They have not been validated for clinical use.
         </p>
       </div>
     </div>

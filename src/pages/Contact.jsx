@@ -19,11 +19,10 @@ function Contact() {
   return (
     <div style={styles.container}>
       <div style={styles.content}>
-        <h1>Contact Us 📬</h1>
+        <h1>Project Archive 📬</h1>
         <p>
-          Have questions, suggestions, or feedback?<br />
-          We'd love to hear from you! 💬<br /><br />
-          📧 Email us at: <strong>smartgradient@gmail.com</strong>
+          This site was built for Stat Hackathon 2025 and is no longer an active service.<br />
+          The frontend and backend repositories preserve the work and the local setup instructions.
         </p>
       </div>
     </div>
